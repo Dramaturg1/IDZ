@@ -32,7 +32,7 @@ int main() {
     // Обработка элементов массива
     int count = 0;
     for (int i = 0; i < n; i++) {
-        int copy = arr[i];
+        int copy = abs(arr[i]);
         int dig_sum = 0;
         while (copy) {
             dig_sum += copy % 10;
@@ -50,7 +50,7 @@ int main() {
 
 Входные данные:
 10
-111 222 333 444 555 666 777 888 999 1010
+111 -222 333 -444 -555 666 -777 888 -999 1010
 8 15
 Вывод:
 3
