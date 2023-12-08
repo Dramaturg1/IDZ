@@ -1,49 +1,41 @@
-#include<iostream>
+#include <iostream>
 #include <string>
 
 using namespace std;
 
-struct Student {
-	string fio;
-	int marks[5];
+struct sstring {
+	string str;
+	bool print;
 };
 
-void grade(int* arr, int* ex, int* good, int* udovl, int* neud) {
-	int sum = 0;
-	for (int i = 0; i < 5; i++)
-		sum += arr[i];
-	if (sum == 25)
-		*ex = *ex + 1;
-	else if (sum >= 20 && sum <= 24)
-		*good = *good + 1;
-	else if (sum >= 15 && sum <= 19)
-		*udovl = *udovl + 1;
-	else
-		*neud = *neud + 1;
-	return;
+void Task6() {
+	const int N = 5;
+	sstring arr[N];
+	for (int i = 0; i < N; i++) {
+		getline(cin, arr[i].str);
+		arr[i].print = 0;
+	}
+	for (int i = 0; i < N / 2; i++) {
+		bool Char = 0;
+		bool NoDigit = 0;
+		for (int j = 0; j < arr[i].str.size() / 2; j++) {
+			if ((arr[i].str[j] == '+') || (arr[i].str[j] == '-') || (arr[i].str[j] == '*'))
+				Char = 1;
+		}
+		for (int j = arr[i].str.size() / 2; j < arr[i].str.size(); j++) {
+			if ((static_cast<int>(arr[i].str[j]) <= 48) && (static_cast<int>(arr[i].str[j]) >= 57))
+				NoDigit = 1;
+		}
+		if (NoDigit && Char == 1)
+			arr[i].print = 1;
+	}
+	for (int i = 0; i < N; i++) {
+		if (arr[i].print == 1)
+			cout << arr[i].str;
+	}
 }
 
 int main() {
-
-	Student student[5];
-	for (int i = 0; i < 5; i++) {
-		cin >> student[i].fio;
-		for (int j = 0; j < 5; j++) {
-			cin >> student[i].marks[j];
-		};
-	};
-
-	int ex = 0, good = 0, udovl = 0, neud = 0;
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
-			grade(student[i].marks, &ex, &good, &udovl, &neud);
-		}
-	}
-
-	cout << ex << endl << good << endl << udovl << endl << neud << endl;
+	
+	Task6();
 }
-
-Описать структуру с именем STUDENT, содержащую следующие поля: Ф.И.О. 
-номер группы, оценки (алгебра, мат. анализ, дискретная математика, информатика, 
-физкультура). Найти количество отличников, хорошистов, троечников и двоечников.
-
