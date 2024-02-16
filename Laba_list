@@ -1,1 +1,265 @@
+#include <iostream>
 
+using namespace std;
+
+struct Node {
+	int data;
+	Node* next;
+	Node(int value) : data(value), next(nullptr) {};
+};
+
+class List {
+private:
+	Node* head;
+public:
+
+	List() : head(nullptr) {};
+
+	~List() {
+		Node* current = head;
+		while (head) {
+			head = head->next;
+			delete current;
+			current = head;
+		}
+	}
+
+	bool empty() {
+		return head == nullptr;
+	}
+
+	int size() {
+		if (empty())
+			return 0;
+		else {
+			if (!empty()) {
+				Node* current = head;
+				int count = 0;
+				while (current) {
+					current = current->next;
+					count++;
+				}
+				return count;
+			}
+		}
+	}
+
+	void append(int value) {
+		Node* NewNode = new Node(value);
+		if (empty())
+			head = NewNode;
+		else {
+			Node* current;
+			while (current->next != nullptr) {
+				current = current->next;
+			}
+			current->next = NewNode;
+		}
+	}
+	
+	void insert(int value, int pos) {
+		Node* NewNode = new Node(value);
+		if (pos == 1 && empty())
+			head = NewNode;
+		int count = 0;
+		Node* current = head;
+		while (count != pos-1) {
+			current = current->next;
+			count++;
+		}
+		Node* ToLink = current->next;
+		current->next = NewNode;
+		NewNode->next = ToLink;
+	}
+
+	void remove(int pos) {
+		Node* current = head;
+		int count = 0;
+		while (count != pos-1) {
+			current = current->next;
+			count++;
+		}
+		Node* ToDelete = current->next;
+		Node* ToLink = ToDelete->next;
+		current->next = ToLink;
+		delete ToDelete;
+	}
+
+	void print() {
+		Node* current = head;
+		while (current) {
+			cout << current->data << "\t";
+			current = current->next;
+		}
+	}
+
+	int& operator[](int index) {
+		Node* current = head;
+		int count = 0;
+		while (count != index) {
+			current = current->next;
+			count++;
+		}
+		return current->data;
+	}
+
+	int Task1() {
+		Node* current = head;
+		int res = 0;
+		while (current) {
+			if (current->data % 2 == 1)
+				res += current->data * current->data;
+			current = current->next;
+		}
+		return res;
+	}
+
+	void Task2() {
+		Node* current = head;
+		while (current) {
+			if (current->data < 0 && current->next->data % 2 == 1)
+				current->data = abs(current->data);
+			current = current->next;
+		}
+	}
+
+	int Task3() {
+		Node* current = head;
+		double av = 0;
+		int count = 0;
+		while (current) {
+			if (current->data > 0) {
+				av += current->data;
+				count++;
+			}
+			current = current->next;
+		}
+		av = av / count;
+		count = 0;
+		current = head;
+		while (current) {
+			if (abs(current->data) % 5 == 0 && current->data > av) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	void Task4() {
+		Node* current = head;
+		int sum = 0;
+		while (current) {
+			if (current->data % 2 == 1)
+				sum += current->data;
+			current = current->next;
+		}
+		current = head;
+		while (current) {
+			if (current->data % 3 != 0)
+				current->data = sum;
+			current = current->next;
+		}
+	}
+
+	bool Task5() {
+		Node* current = head;
+		while (current->next) {
+			if (current->data < current->next->data)
+				return 0;
+			current = current->next;
+		}
+		return 1;
+	}
+
+	void Task6() {
+		Node* current = head;
+		int max = 0;
+		while (current) {
+			if (current->data > max)
+				max = current->data;
+			current = current->next;
+		}
+		current = head;
+		while (current->next) {
+			if (current->data >= 10 && current->data <= 99 && current->next->data < 0)
+				current->data += max;
+			current = current->next;
+		}
+	}
+
+	void Task7() {
+		Node* current = head;
+		int count = 0;
+		while (current->next) {
+			if (current->data > 0 && current->next->data % 2 == 0)
+				remove(count);
+			current = current->next;
+			count++;
+		}
+	}
+
+	void Task8() {
+		Node* current = head;
+		int count = 0;
+		while (current->next) {
+			if (current->data < 0 && current->next->data % 5 == 0)
+				remove(count + 1);
+			current = current->next;
+			count++;
+		}
+	}
+
+	void Task9() {
+		Node* current = head;
+		int count = 0;
+		while (current->next->next) {
+			if (current->next->data >= 10 && current->next->data <= 99 && current->data == current->next->next->data)
+				remove(count + 1);
+			current = current->next;
+			count++;
+		}
+	}
+
+	void Task10(int value) {
+		Node* current = head;
+		int count = 0;
+		while (current->next) {
+			if (current->data % 2 == 0 && current->next->data % 2 == 0)
+				insert(value, count);
+			current = current->next;
+			count++;
+		}
+	}
+
+	void Task11() {
+		Node* current = head;
+		int count = 0;
+		while (current->next) {
+			if (current->next->data % 2 == 1)
+				insert(5, count);
+			current = current->next;
+			count++;
+		}
+	}
+
+	void Task12() {
+		Node* current = head;
+		int min = 999999;
+		while (current) {
+			if (current->data % 2 == 0 && current->data < min)
+				min = current->data;
+		}
+		int count = 0;
+		current = head;
+		while (current->next) {
+			if (current->data % 100 == 13)
+				insert(min, count + 1);
+			current = current->next;
+			count++;
+		}
+	}
+};
+
+int main() {
+
+}
